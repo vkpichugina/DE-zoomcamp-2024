@@ -1,0 +1,7 @@
+FROM hashicorp/terraform:latest  
+
+WORKDIR /terraform_demo
+
+COPY . .  
+
+ENTRYPOINT ["terraform"]
