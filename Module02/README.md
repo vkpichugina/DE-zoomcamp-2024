@@ -44,6 +44,15 @@ The developer experience
 
 An open-source pipeline tool for orchestraiting, transforming and integrating data
 
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Mage-1.png" alt="Mage flow" width="600"/>
+
+### Anatomy of a Block
+
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Mage-block.png" alt="Anatomy of a Block" width="600"/>
+
+Function returnes DataFrame
+
+
 
 
 
