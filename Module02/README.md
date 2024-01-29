@@ -1,4 +1,4 @@
-# Workflow Orchestration
+<img width="916" alt="Снимок экрана 2024-01-29 в 14 29 25" src="https://github.com/vkpichugina/DE-zoomcamp-2024/assets/132204881/3ec88d8c-6613-4e9d-9ca5-85b8217d8c67"># Workflow Orchestration
 ## What will we build
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Flow.png" alt="Architecture" width="600"/>
 
@@ -51,6 +51,16 @@ An open-source pipeline tool for orchestraiting, transforming and integrating da
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Mage-block.png" alt="Anatomy of a Block" width="600"/>
 
 Function returnes DataFrame
+
+## Configure Mage
+
+See the instruction in [mage-zoomcamp](https://github.com/mage-ai/mage-zoomcamp)
+
+To update mage run:
+
+```bash
+docker pull mageai/mageai:latest
+```
 
 
 
