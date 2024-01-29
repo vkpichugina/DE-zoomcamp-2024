@@ -45,7 +45,7 @@ Docker containers are stateless: any changes done inside a container will NOT be
 2) Run the command `docker build -t <image_name>:<tag>`
 3) Run the container `docker run -it <image_name>:<tag> <argument>`
 
-###Example with running postgres in a container
+### Example with running postgres in a container
 
 Create a folder anywhere you'd like for Postgres to store data in. We will use the example folder `ny_taxi_postgres_data`. Here's how to run the container:
 
@@ -79,7 +79,7 @@ pgcli -h localhost -p 5432 -u root -d ny_taxi
 - `-d` is the database name.
 - The password is not provided; it will be requested after running the command.
 
-## Connecting pgAdmin and Postgres with Docker networking
+### Connecting pgAdmin and Postgres with Docker networking
 
 Let's create a virtual Docker network called `pg-network`:
 
@@ -122,7 +122,7 @@ docker run -it \
 You should now be able to load pgAdmin on a web browser by browsing to `localhost:8080`. Use the same email and password you used for running the container to log in.
 
 
-## Using the ingestion script with Docker
+### Using the ingestion script with Docker
 
 The ingestion script:
 ```python
@@ -200,7 +200,7 @@ python ingest_data.py \
     --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 ```
 
-## Dockerizing the script
+### Dockerizing the script
 
 Create a following dockerfile that includes `ingest_data.py` script and create a new image:
 ```dockerfile
@@ -238,7 +238,7 @@ docker run -it \
 * Since Postgres is running on a separate container, the host argument will have to point to the container name of Postgres.
 * You can drop the table in pgAdmin beforehand if you want, but the script will automatically replace the pre-existing table.
 
-## Running Postgres and pgAdmin with Docker-compose
+### Running Postgres and pgAdmin with Docker-compose
 
 `docker-compose` allows us to launch multiple containers using a single configuration file, so that we don't have to run multiple complex `docker run` commands separately.
 
