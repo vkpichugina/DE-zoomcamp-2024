@@ -19,7 +19,7 @@ The data orchestrator manages scheduling, triggering, monitoring and even resour
   - steps = tasks
   - Workflows = DAGs (directed acyclic graphs)
 
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/DE-lifestyle.png" alt="DE-lifestyle" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/DE-lifecycle.png" alt="DE-lifestyle" width="600"/>
 
 ### What does a good solution look like?
 A good orchestrator handles...
