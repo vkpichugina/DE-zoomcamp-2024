@@ -232,7 +232,7 @@ docker run -it \
     --port=5432 \
     --db=ny_taxi \
     --table_name=yellow_taxi_trips \
-    --url="https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv"
+    --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 ```
 * We need to provide the network for Docker to find the Postgres container. It goes before the name of the image.
 * Since Postgres is running on a separate container, the host argument will have to point to the container name of Postgres.
@@ -273,3 +273,14 @@ We can now run Docker compose by running the following command from the same dir
 docker-compose up
 ```
 
+You will have to press Ctrl+C in order to shut down the containers. The proper way of shutting them down is with this command:
+
+```bash
+docker-compose down
+```
+
+And if you want to run the containers again in the background rather than in the foreground (thus freeing up your terminal), you can run them in detached mode:
+
+```bash
+docker-compose up -d
+```
