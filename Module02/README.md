@@ -17,7 +17,7 @@ The data orchestrator manages scheduling, triggering, monitoring and even resour
 
 - Every workflow requires sequential steps
   - steps = tasks
-  - Workflows = DAGs (directed acyclic graphs)
+  - workflows = DAGs (directed acyclic graphs)
 
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/DE-lifecycle.png" alt="DE-lifestyle" width="600"/>
 
@@ -34,8 +34,16 @@ A good orchestrator handles...
 - Compliance/Auditing
 
 A good orchestrator prioritizes...
-The developer experince
+
+The developer experience
 - Flow state
 - Feedback Loops
 - Cognitive Load
+
+## What is Mage?
+
+An open-source pipeline tool for orchestraiting, transforming and integrating data
+
+
+
 
