@@ -1,4 +1,4 @@
-<img width="916" alt="Снимок экрана 2024-01-29 в 14 29 25" src="https://github.com/vkpichugina/DE-zoomcamp-2024/assets/132204881/3ec88d8c-6613-4e9d-9ca5-85b8217d8c67"># Workflow Orchestration
+# Workflow Orchestration
 ## What will we build
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Flow.png" alt="Architecture" width="600"/>
 
