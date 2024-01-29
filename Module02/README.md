@@ -16,6 +16,26 @@ Orchestration is a process of dependency management, facilitated through **autom
 The data orchestrator manages scheduling, triggering, monitoring and even resource allocation.
 
 - Every workflow requires sequential steps
-  -- steps = tasks
-  -- Workflows = DAGs (directed acyclic graphs)
+  - steps = tasks
+  - Workflows = DAGs (directed acyclic graphs)
+
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/DE-lifestyle.png" alt="DE-lifestyle" width="600"/>
+
+### What does a good solution look like?
+A good orchestrator handles...
+- Workflow management
+- Automation
+- Error handling
+- Recovery
+- Monitoring, alerting
+- Resoruce optimizatoin
+- Observability
+- Debugging
+- Compliance/Auditing
+
+A good orchestrator prioritizes...
+The developer experince
+- Flow state
+- Feedback Loops
+- Cognitive Load
 
