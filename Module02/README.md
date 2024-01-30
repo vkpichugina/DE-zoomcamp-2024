@@ -236,8 +236,75 @@ def test_output(output, *args) -> None:
   GOOGLE_SERVICE_ACC_KEY_FILEPATH: "/path/to/your/service/account/key.json"
   GOOGLE_LOCATION: US # Optional
    ```
-5) Pipelines --> test_config --> switch connection to BigQuery and switch profile to default
+5) Pipelines --> test_config --> switch connection to BigQuery and switch profile to default, run `select 1;` to check connection
+6) Add titanic_clean.csv from example_pipeline to bucket
+7) Delete Data Loader from test_config
+8) Add Data Loader --> Python --> GCS "test_gcs"
+9) Change parameters:
+    ```python
+    bucket_name = 'mage-zoomcamp-vkpichugina'
+    object_key = 'titanic_clean.csv'
+    ```
+10) Run script: if everything ok - you connected!
 
+## ETL: API to GCS
+
+Add yellow_taxi_data to GCS:
+1) Create new batch pipeline
+2) Load load_api_data and clean_taxi_data.py by dragging it into the space (don't forget to add link between them)
+3) Add Data Exporter --> Python --> GCS "taxi_to_gcs_parquet"
+4) Change parameters:
+    ```python
+    bucket_name = 'mage-zoomcamp-vkpichugina'
+    object_key = 'nyc_taxi_data.parquet'
+    ```
+5) Execute with all upstream blocks
+6) Check that GCS has the new file
+
+> Usually we don't write in single parquet file so we have to write in partitioned parquet structure
+
+1) Add Data Exporter --> Python --> Generic (no template) "taxi_to_gcs_partirioned_parquet"
+2) Fix the connection if applicable, the previous step shoud be transforming
+3) Define our credentials manually and use py-arrow library to partition that dataset:
+   ```python
+   import pyarrow as pa
+   import pyarrow.parquet as pq
+   import os
+
+   ...
+   #we need to tell the pyarrow where our credentials live
+   os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/src/terraform-demo-412115-ac0d4b390936.json"
+
+   bucket_name = 'mage-zoomcamp-vkpichugina'
+   project_id = 'terraform-demo-412115'
+
+   table_name = "nyc_taxi_data"
+
+   root_path=f'{bucket_name}/{table_name}'
+
+   ...
+  #extract date from datetime
+   data['tpep_pickip_date'] = data['tpep_pickip_datetime'].dt.date
+
+   table = pa.Table.from_pandas(data)
+
+   gcs = pa.fs.GcsFileSystem()
+
+   pq.write_to_dataset(
+    table,
+    root_path=root_path,
+    partition_cols=['tpep_pickup_date'],
+    filesystem=gcs
+    )
+   ```
+4) Check the we have folder in GCS with our parquet files
+
+## ETL: GCS to BigQuery
+## Parameterized Execution
+## Backfills
+## Deployment prerequisites
+## Deploying to GCP
+## Next steps
 
 
 
