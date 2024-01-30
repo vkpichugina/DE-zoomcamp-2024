@@ -62,6 +62,76 @@ To update mage run:
 docker pull mageai/mageai:latest
 ```
 
+## Configuring Postgres
+
+How to configure a Postgres client to connect to a local Postgres database  in a Docker image build.
+
+```Dockerfile
+version: '3'
+services:
+  magic:
+    image: mageai/mageai:latest
+    command: mage start ${PROJECT_NAME}
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      USER_CODE_PATH: /home/src/${PROJECT_NAME}
+      POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+      POSTGRES_SCHEMA: ${POSTGRES_SCHEMA}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    ports:
+      - 6789:6789
+    volumes:
+      - .:/home/src/
+      - ~/Documents/secrets/personal-gcp.json:/home/src/personal-gcp.json
+    restart: on-failure:5
+  postgres:
+    image: postgres:14
+    restart: on-failure
+    container_name: ${PROJECT_NAME}-postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DBNAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+```
+
+in .env file we have information about the connection like:
+
+```environment
+PROJECT_NAME=magic-zoomcamp
+POSTGRES_DBNAME=postgres
+POSTGRES_SCHEMA=magic
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=*****
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+```
+
+> Benefit: .env almost always in gitignore files - so we don't occasionally commit these files to version control
+
+Adding Dev connection profile in Mage io_config.yaml - useful for separation development and production:
+
+```yaml
+dev:
+    # PostgresSQL
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: "{{env_var(POSTGRES_DBNAME)}}"
+  POSTGRES_SCHEMA: "{{env_var(POSTGRES_SCHEMA)}}" 
+  POSTGRES_USER: "{{env_var(POSTGRES_USER)}}"
+  POSTGRES_PASSWORD: "{{env_var(POSTGRES_PASSWORD)}}"
+  POSTGRES_HOST: "{{env_var(POSTGRES_HOST)}}"
+  POSTGRES_PORT: "{{env_var(POSTGRES_PORT)}}"
+```
 
 
 
