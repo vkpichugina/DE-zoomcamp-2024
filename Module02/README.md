@@ -222,6 +222,10 @@ def test_output(output, *args) -> None:
    ```sql
     select * from ny_taxi.yellow_taxi_data limit 10
    ```
+
+   <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/ETL-1.png" alt="Architecture" width="600"/>
+
+
    
 
 
