@@ -52,7 +52,7 @@ An open-source pipeline tool for orchestraiting, transforming and integrating da
 
 Function returnes DataFrame
 
-## Configure Mage
+## Configuring Mage
 
 See the instruction in [mage-zoomcamp](https://github.com/mage-ai/mage-zoomcamp)
 
@@ -225,9 +225,18 @@ def test_output(output, *args) -> None:
 
    <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/ETL-1.png" alt="Architecture" width="600"/>
 
+## Configuring GCP
 
-   
-
+1) Create a new bucket: Search --> Google Cloud Storage --> Cloud Storage "mage-zoomcamp-vkpichugina"
+2) Create a service account "mage-zoomcamp" with role "owner"
+3) Create a new json key and add it to mage-zoomcamp folder
+4) Authentification: Mages --> Files --> io_config.yaml Add path to json file in google section
+ ```yaml
+   # Google
+  GOOGLE_SERVICE_ACC_KEY_FILEPATH: "/path/to/your/service/account/key.json"
+  GOOGLE_LOCATION: US # Optional
+   ```
+5) Pipelines --> test_config --> switch connection to BigQuery and switch profile to default
 
 
 
