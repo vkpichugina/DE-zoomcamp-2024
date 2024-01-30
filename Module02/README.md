@@ -132,6 +132,10 @@ dev:
   POSTGRES_HOST: "{{ env_var('POSTGRES_HOST') }}"
   POSTGRES_PORT: "{{ env_var('POSTGRES_PORT') }}"
 ```
+To check the connection to docker's postgres:  create a new pipeline "test_config" and add SQL data loader, select connection to PostgreSQL and profile dev. Run command:
+```sql
+select 1;
+```
 
 
 
