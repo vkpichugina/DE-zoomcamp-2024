@@ -24,6 +24,7 @@ Docker containers are stateless: any changes done inside a container will NOT be
 7. **Manage Containers**: Effectively handle containers using various Docker commands such as “docker ps” to enlist running containers and “docker stop” to halt their execution.
 
 ## Docker commands
+- **sudo service docker start** - to start docker
 - **docker run** - initiates creating and activating a fresh container using a Docker image
 - **docker ps** - presents data regarding the active containers on a Docker host
 - **docker images** - displays a collection of Docker images stored locally
