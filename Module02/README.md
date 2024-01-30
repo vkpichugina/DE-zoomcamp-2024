@@ -138,6 +138,13 @@ select 1;
 ```
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/connection_check.png" alt="Architecture" width="600"/>
 
+## ETL: API to Postgres
+
+1) Create a new pipeline "API_to_postgres"
+2) Create a new data laoder Python --> API "load_api_data"
+3) edit the template
+   - exclude response
+   - map datatypes
 
 
 
