@@ -136,6 +136,9 @@ To check the connection to docker's postgres:  create a new pipeline "test_confi
 ```sql
 select 1;
 ```
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/connection_check.png" alt="Architecture" width="600"/>
+
+
 
 
 
