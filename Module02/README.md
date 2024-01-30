@@ -125,12 +125,12 @@ Adding Dev connection profile in Mage io_config.yaml - useful for separation dev
 dev:
     # PostgresSQL
   POSTGRES_CONNECT_TIMEOUT: 10
-  POSTGRES_DBNAME: "{{env_var(POSTGRES_DBNAME)}}"
-  POSTGRES_SCHEMA: "{{env_var(POSTGRES_SCHEMA)}}" 
-  POSTGRES_USER: "{{env_var(POSTGRES_USER)}}"
-  POSTGRES_PASSWORD: "{{env_var(POSTGRES_PASSWORD)}}"
-  POSTGRES_HOST: "{{env_var(POSTGRES_HOST)}}"
-  POSTGRES_PORT: "{{env_var(POSTGRES_PORT)}}"
+  POSTGRES_DBNAME: "{{ env_var('POSTGRES_DBNAME') }}"
+  POSTGRES_SCHEMA: "{{ env_var('POSTGRES_SCHEMA') }}" 
+  POSTGRES_USER: "{{ env_var('POSTGRES_USER') }}"
+  POSTGRES_PASSWORD: "{{ env_var('POSTGRES_PASSWORD') }}"
+  POSTGRES_HOST: "{{ env_var('POSTGRES_HOST') }}"
+  POSTGRES_PORT: "{{ env_var('POSTGRES_PORT') }}"
 ```
 
 
