@@ -1,6 +1,6 @@
 # Workflow Orchestration
 ## What will we build
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Flow.png" alt="Architecture" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/Flow.png" alt="Architecture" width="600"/>
 
 ### Architecture
 #### Extract
@@ -19,7 +19,7 @@ The data orchestrator manages scheduling, triggering, monitoring and even resour
   - steps = tasks
   - workflows = DAGs (directed acyclic graphs)
 
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/DE-lifecycle.png" alt="DE-lifestyle" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/DE-lifecycle.png" alt="DE-lifestyle" width="600"/>
 
 ### What does a good solution look like?
 A good orchestrator handles...
@@ -44,11 +44,11 @@ The developer experience
 
 An open-source pipeline tool for orchestraiting, transforming and integrating data
 
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Mage-1.png" alt="Mage flow" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/Mage-1.png" alt="Mage flow" width="600"/>
 
 ### Anatomy of a Block
 
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/Mage-block.png" alt="Anatomy of a Block" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/Mage-block.png" alt="Anatomy of a Block" width="600"/>
 
 Function returnes DataFrame
 
@@ -266,40 +266,32 @@ Add yellow_taxi_data to GCS:
 1) Add Data Exporter --> Python --> Generic (no template) "taxi_to_gcs_partirioned_parquet"
 2) Fix the connection if applicable, the previous step shoud be transforming
 3) Define our credentials manually and use py-arrow library to partition that dataset:
+   
    ```python
 import pyarrow as pa
 import pyarrow.parquet as pq
 import os
 if 'data_exporter' not in globals():
   from mage_ai.data_preparation.decorators import data_exporter
-
-
-
 #we need to tell the pyarrow where our credentials live
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/src/terraform-demo-412115-ac0d4b390936.json"
-
 bucket_name = 'mage-zoomcamp-vkpichugina'
 project_id = 'terraform-demo-412115'
-
 table_name = "nyc_taxi_data"
 root_path=f'{bucket_name}/{table_name}'
-
 @data_exporter
 def export_data(data, *args, **kwargs):
-      #extract date from datetime
+   #extract date from datetime
    data['tpep_pickup_date'] = data['tpep_pickup_datetime'].dt.date
-
    table = pa.Table.from_pandas(data)
-
    gcs = pa.fs.GcsFileSystem()
-
    pq.write_to_dataset(
     table,
     root_path=root_path,
     partition_cols=['tpep_pickup_date'],
     filesystem=gcs
    )
-   ```
+```
 4) Check the we have folder in GCS with our parquet files
 
 ## ETL: GCS to BigQuery
