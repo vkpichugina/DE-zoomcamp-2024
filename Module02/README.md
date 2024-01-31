@@ -265,33 +265,7 @@ Add yellow_taxi_data to GCS:
 
 1) Add Data Exporter --> Python --> Generic (no template) "taxi_to_gcs_partirioned_parquet"
 2) Fix the connection if applicable, the previous step shoud be transforming
-3) Define our credentials manually and use py-arrow library to partition that dataset:
-   
-   ```python
-import pyarrow as pa
-import pyarrow.parquet as pq
-import os
-if 'data_exporter' not in globals():
-  from mage_ai.data_preparation.decorators import data_exporter
-#we need to tell the pyarrow where our credentials live
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/src/terraform-demo-412115-ac0d4b390936.json"
-bucket_name = 'mage-zoomcamp-vkpichugina'
-project_id = 'terraform-demo-412115'
-table_name = "nyc_taxi_data"
-root_path=f'{bucket_name}/{table_name}'
-@data_exporter
-def export_data(data, *args, **kwargs):
-   #extract date from datetime
-   data['tpep_pickup_date'] = data['tpep_pickup_datetime'].dt.date
-   table = pa.Table.from_pandas(data)
-   gcs = pa.fs.GcsFileSystem()
-   pq.write_to_dataset(
-    table,
-    root_path=root_path,
-    partition_cols=['tpep_pickup_date'],
-    filesystem=gcs
-   )
-```
+3) Define our credentials manually and use py-arrow library to partition that dataset:  
 4) Check the we have folder in GCS with our parquet files
 
 ## ETL: GCS to BigQuery
