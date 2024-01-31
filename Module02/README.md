@@ -291,7 +291,7 @@ def export_data(data, *args, **kwargs):
     filesystem=gcs
    )
 ```
-5) Check the we have folder in GCS with our parquet files
+4) Check the we have folder in GCS with our parquet files
 
 ## ETL: GCS to BigQuery
 ## Parameterized Execution
