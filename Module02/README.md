@@ -136,7 +136,7 @@ To check the connection to docker's postgres:  create a new pipeline "test_confi
 ```sql
 select 1;
 ```
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/connection_check.png" alt="Architecture" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/connection_check.png" alt="Connection check" width="600"/>
 
 ## ETL: API to Postgres
 
@@ -223,7 +223,7 @@ def test_output(output, *args) -> None:
     select * from ny_taxi.yellow_taxi_data limit 10
    ```
 
-   <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/ETL-1.png" alt="Architecture" width="600"/>
+   <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/ETL-1.png" alt="ETL" width="600"/>
 
 ## Configuring GCP
 
@@ -294,6 +294,38 @@ def export_data(data, *args, **kwargs):
 4) Check the we have folder in GCS with our parquet files
 
 ## ETL: GCS to BigQuery
+
+1) Create a new batch pipeline "gcs_to_bigquery"
+2) Add Data Loader --> Python --> GCS "load_taxi_gcs"
+3) Add bucket name and object key, delete test and run
+4) Add Transformer  --> Python --> Generic (no template)  "transform_staged_data"
+5) To standardize column name in transformer block add:
+   ```python
+   data.colums = (data.colums
+                   .str.replace(' ','_')
+                   .str.lower()
+   )
+   return data
+   ```
+6) Add Data Exporter --> SQL  "write_taxi_to_bigquery"
+7) Connection --> BigQuery, Profile --> default
+8) Specify the database chema (ny_taxi) and table (yellow_taxi_data)
+9) Run select statement:
+    ```sql
+    select * from {{ df_1}}
+    ```
+10) Check results in Google Cloud BigQuery
+
+### Schedule
+
+Trigger:
+Schedule/ Event / API
+
+1) Select schedule
+2) Set the settings and save the changes:
+ <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/trigger_settings.png" alt="trigger settings" width="600"/>
+3) Enable trigger
+
 ## Parameterized Execution
 ## Backfills
 ## Deployment prerequisites
