@@ -327,8 +327,65 @@ Schedule/ Event / API
 3) Enable trigger
 
 ## Parameterized Execution
+
+Runtime variables
+
+1) Create a copy of load_to_gcp (right click --> clone)
+
+> Mage shares different blocks between pipelines - when you edit a block be aware
+
+2) Copy the content of Data Exporter block to new Data Exporter --> Python --> Generic "export_taxi_to_gcp_parameter"
+   
+4) Remove previous block with connections
+5) Rename the pipeline to load_to_gcp_parameterized
+   
+> every mage block has key words arguments **kwargs** that containes a number of parameteres. Every variable we create will be stored in these key words arguments and also we can access a few parameters by default, one of them - execution date
+
+6) the code to access the execution date:
+ ```python
+now = kwargs.get('execution_date')
+now_fpath = now.strftime("%Y/%m/%d")
+# print(now)
+# print(now.date())
+# print(now.strftime("%Y/%m/%d"))
+config_path = path.join(get_repo_path(), 'io_config.yaml')
+config_profile = 'default'
+bucket_name = 'mage-zoomcamp-vkpichugina'
+object_key = f'{now_fpath}daily-trips.parquet'
+# print(object_keys)
+GoogleCloudStorage.with_config(ConfigFileLoader(config_path, config_profile)).export(
+        df,
+        bucket_name,
+        object_key,
+    )
+```
+7) Execute with upstream blocks
+
+> also its possible to create runtime variables from the menu --> triggers --> run settings
+
 ## Backfills
+
+1) Click backfills in the menu
+2) Create new backfill
+3) Add name,  start date and time, end date and time and interval info
+
+> it's going create a set of runs equal the number of days. It's going to asign an execution date variable to each day in the pipeline
+
 ## Deployment prerequisites
+
+Prerequisites
+- Terraform on local machine
+- Gcloid cli
+- Google Cloud Permissions (for services account)
+- Mage Terraform templates
+
+> Pluses of Terraform:
+> 1) version control
+> 2) store infrastructure as a code
+
+
+
+
 ## Deploying to GCP
 ## Next steps
 
