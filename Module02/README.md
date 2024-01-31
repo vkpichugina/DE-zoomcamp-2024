@@ -373,7 +373,6 @@ GoogleCloudStorage.with_config(ConfigFileLoader(config_path, config_profile)).ex
 
 ## Deployment prerequisites
 
-Prerequisites
 - Terraform on local machine
 - Gcloid cli
 - Google Cloud Permissions (for services account)
