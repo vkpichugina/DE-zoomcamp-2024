@@ -75,6 +75,84 @@ Once the dataset is loaded, what's the shape of the data?
     - `vendor_id` is one of the existing values in the column (currently)
     - `passenger_count` is greater than 0
     - `trip_distance` is greater than 0
+      
+```python
+import re
+if 'transformer' not in globals():
+    from mage_ai.data_preparation.decorators import transformer
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+# Remove rows where the passenger count is equal to 0 or the trip distance is equal to zero.
+# Create a new column lpep_pickup_date by converting lpep_pickup_datetime to a date.
+# Rename columns in Camel Case to Snake Case
+@transformer
+def transform(data, *args, **kwargs):
+
+    # Specify your transformation logic here
+    print( f'Preprocessing: rows with zero passengers { data["passenger_count"].isin([0]).sum()}')
+    print( f'Preprocessing: rows with zero distance { data["trip_distance"].isin([0]).sum()}')
+    data['lpep_pickup_date']=data['lpep_pickup_datetime'].dt.date
+    data.columns = (data.columns
+                 .str.replace('ID','_id')
+                .str.lower()
+        )
+    return data[(data['passenger_count']>0) & (data['trip_distance']>0) ]
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'
+
+@test
+def test_output(output, *args):
+    # `passenger_count` is greater than 0
+    assert output["passenger_count"].isin([0]).sum()==0, 'There are rides with zero passengers'
+    # `trip_distance` is greater than 0
+    assert output["trip_distance"].isin([0]).sum()==0, 'There are rides with zero distance'
+    #vendor_id is one of the existing values in the column (currently)
+    assert output["vendor_id"].isin([1,2]).all() == True, 'There are vendors that are not in the list'
+```
+
+## Question 2. Data Transformation
+
+Upon filtering the dataset where the passenger count is greater than 0 _and_ the trip distance is greater than zero, how many rows are left?
+
+* 544,897 rows
+* 266,855 rows
+* **139,370 rows**
+* 266,856 rows
+
+## Question 3. Data Transformation
+
+Which of the following creates a new column `lpep_pickup_date` by converting `lpep_pickup_datetime` to a date?
+
+* `data = data['lpep_pickup_datetime'].date`
+* `data('lpep_pickup_date') = data['lpep_pickup_datetime'].date`
+* **`data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`**
+* `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt().date()`
+
+## Question 4. Data Transformation
+
+What are the existing values of `VendorID` in the dataset?
+
+* 1, 2, or 3
+* **1 or 2**
+* 1, 2, 3, 4
+* 1
+
+## Question 5. Data Transformation
+
+How many columns need to be renamed to snake case?
+
+* 3
+* 6
+* 2
+* **4** (VendorID RatecodeID PULocationID DOLocationID)
+
 
 - Using a Postgres data exporter (SQL or Python), write the dataset to a table called `green_taxi` in a schema `mage`. Replace the table if it already exists.
 - Write your data as Parquet files to a bucket in GCP, partioned by `lpep_pickup_date`. Use the `pyarrow` library!
