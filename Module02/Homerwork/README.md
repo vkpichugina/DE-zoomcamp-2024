@@ -156,8 +156,7 @@ How many columns need to be renamed to snake case?
 
 ### Data Exporter Block
 - Using a Postgres data exporter (SQL or Python), write the dataset to a table called `green_taxi` in a schema `mage`. Replace the table if it already exists.
-  ```sql
-  ```
+  <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/exporter_to_postgres.png" alt="Architecture" width="600"/>
 - Write your data as Parquet files to a bucket in GCP, partioned by `lpep_pickup_date`. Use the `pyarrow` library!
   ```python
   ```
