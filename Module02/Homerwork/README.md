@@ -189,5 +189,5 @@ Once exported, how many partitions (folders) are present in Google Cloud? **96**
 
 - Schedule your pipeline to run daily at 5AM UTC.
 
-  <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/green_taxi_shedule.png" alt="green_taxi_shedule" width="600"/>
+  <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/green_taxi_shedule.png" alt="green_taxi_shedule" width="400"/>
 
