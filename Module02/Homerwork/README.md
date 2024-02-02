@@ -1,5 +1,4 @@
 # Homework Module 2
-## Assignment
 
 The goal will be to construct an ETL pipeline that loads the data, performs some transformations, and writes the data to a database (and Google Cloud!).
 
