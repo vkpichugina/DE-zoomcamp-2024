@@ -161,5 +161,33 @@ How many columns need to be renamed to snake case?
 
 - Write your data as Parquet files to a bucket in GCP, partioned by `lpep_pickup_date`. Use the `pyarrow` library!
   ```python
+  import pyarrow as pa
+import pyarrow.parquet as pq
+import os
+if 'data_exporter' not in globals():
+  from mage_ai.data_preparation.decorators import data_exporter
+#we need to tell the pyarrow where our credentials live
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/src/terraform-demo-412115-ac0d4b390936.json"
+bucket_name = 'mage-zoomcamp-vkpichugina'
+project_id = 'terraform-demo-412115'
+table_name = "green_taxi_data"
+root_path=f'{bucket_name}/{table_name}'
+@data_exporter
+def export_data(data, *args, **kwargs):
+   table = pa.Table.from_pandas(data)
+   gcs = pa.fs.GcsFileSystem()
+   pq.write_to_dataset(
+    table,
+    root_path=root_path,
+    partition_cols=['lpep_pickup_date'],
+    filesystem=gcs
+   )
   ```
+#### Question 6. Data Exporting
+
+Once exported, how many partitions (folders) are present in Google Cloud? **96**
+
 - Schedule your pipeline to run daily at 5AM UTC.
+
+  <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module02/img/green_taxi_shedule.png" alt="green_taxi_shedule" width="600"/>
+
