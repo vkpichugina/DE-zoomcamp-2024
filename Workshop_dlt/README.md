@@ -21,7 +21,7 @@ def square_root_generator(limit):
         n += 1
 
 # Example usage:
-limit = 13
+limit = 5
 generator = square_root_generator(limit)
 
 sum=0
@@ -40,12 +40,141 @@ print(sum)
 - **C**: 2.345551275463989
 - **D**: 5.678551275463989
 
+``` python
+def square_root_generator(limit):
+    n = 1
+    while n <= limit:
+        yield n ** 0.5
+        n += 1
+
+# Example usage:
+limit = 13
+generator = square_root_generator(limit)
+
+for sqrt_value in generator:
+    print(sqrt_value)
+```
+3.605551275463989
+
 #### Question 3: Append the 2 generators. After correctly appending the data, calculate the sum of all ages of people.
 - **A**: 353
 - **B**: 365
 - **C**: 378
 - **D**: 390
 
+Below you have 2 generators. You will be tasked to load them to duckdb and answer some questions from the data
+1. Load the first generator and calculate the sum of ages of all people. Make sure to only load it once.
+```python
+import dlt
+import duckdb
+
+def people_1():
+    for i in range(1, 6):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 25 + i, "City": "City_A"}
+
+for person in people_1():
+    print(person)
+
+
+def people_2():
+    for i in range(3, 9):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 30 + i, "City": "City_B", "Occupation": f"Job_{i}"}
+
+
+for person in people_2():
+    print(person)
+
+# define the connection to load to.
+generators_pipeline = dlt.pipeline(destination='duckdb', dataset_name='ages')
+
+
+# we can load any generator to a table at the pipeline destnation as follows:
+info = generators_pipeline.run(people_1(),
+										table_name="ages",
+										write_disposition="replace")
+
+# the outcome metadata is returned by the load and we can inspect it by printing it.
+print(info)
+
+conn = duckdb.connect(f"{generators_pipeline.pipeline_name}.duckdb")
+
+# let's see the tables
+conn.sql(f"SET search_path = '{generators_pipeline.dataset_name}'")
+print('Loaded tables: ')
+display(conn.sql("show tables"))
+
+# and the data
+
+print("\n\n\n ages table below:")
+
+ages = conn.sql("SELECT * FROM ages").df()
+display(ages)
+
+sum_ages = conn.sql("SELECT sum(Age) FROM ages").df()
+display(sum_ages)
+```
+
+Output:
+img dlt_1
+
+2. Append the second generator to the same table as the first.
+3. After correctly appending the data, calculate the sum of all ages of people.
+``` python
+import dlt
+import duckdb
+
+def people_1():
+    for i in range(1, 6):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 25 + i, "City": "City_A"}
+
+for person in people_1():
+    print(person)
+
+
+def people_2():
+    for i in range(3, 9):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 30 + i, "City": "City_B", "Occupation": f"Job_{i}"}
+
+
+for person in people_2():
+    print(person)
+
+# define the connection to load to.
+generators_pipeline = dlt.pipeline(destination='duckdb', dataset_name='ages')
+
+
+# we can load any generator to a table at the pipeline destnation as follows:
+info = generators_pipeline.run(people_1(),
+										table_name="ages",
+										write_disposition="replace")
+
+# we can load the next generator to the same or to a different table.
+info = generators_pipeline.run(people_2(),
+										table_name="ages",
+										write_disposition="append")
+
+# the outcome metadata is returned by the load and we can inspect it by printing it.
+print(info)
+
+conn = duckdb.connect(f"{generators_pipeline.pipeline_name}.duckdb")
+
+# let's see the tables
+conn.sql(f"SET search_path = '{generators_pipeline.dataset_name}'")
+print('Loaded tables: ')
+display(conn.sql("show tables"))
+
+# and the data
+
+print("\n\n\n ages table below:")
+
+ages = conn.sql("SELECT * FROM ages").df()
+display(ages)
+
+sum_ages = conn.sql("SELECT sum(Age) FROM ages").df()
+display(sum_ages)
+```
+
+img dlt_2
 #### Question 4: Merge the 2 generators using the ID column. Calculate the sum of ages of all the people loaded as described above.
 - **A**: 205
 - **B**: 213
