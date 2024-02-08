@@ -138,3 +138,24 @@ Clustering columns must be ***top-level***, ***non-repeated*** columns. The foll
 * `DATETIME`
 
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/BQ_clustering.png" alt="BQ clustering" width="600"/>
+
+
+```sql
+-- Creating a partition and cluster table
+CREATE OR REPLACE TABLE de-zoomcamp-bq.ny_taxi.green_taxi_data_22_partitioned_clustered
+PARTITION BY DATE(lpep_pickup_datetime)
+CLUSTER BY VendorID AS
+SELECT * FROM de-zoomcamp-bq.ny_taxi.green_taxi_data_22;
+
+-- Query scans 7.28 MB
+SELECT count(*) as trips
+FROM de-zoomcamp-bq.ny_taxi.green_taxi_data_22_partitoned
+WHERE DATE(lpep_pickup_datetime) BETWEEN '2022-06-01' AND '2022-12-31'
+  AND VendorID=1;
+
+-- Query scans 7.07 MB
+SELECT count(*) as trips
+FROM de-zoomcamp-bq.ny_taxi.green_taxi_data_22_partitioned_clustered
+WHERE DATE(lpep_pickup_datetime) BETWEEN '2022-06-01' AND '2022-12-31'
+  AND VendorID=1;
+```
