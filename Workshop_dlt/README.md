@@ -115,6 +115,7 @@ display(sum_ages)
 ```
 
 Output:
+
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Workshop_dlt/img/dlt_1.png" alt="DLT" width="600"/>
 
 2. Append the second generator to the same table as the first.
@@ -174,6 +175,7 @@ sum_ages = conn.sql("SELECT sum(Age) FROM ages").df()
 display(sum_ages)
 ```
 Output:
+
 <img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Workshop_dlt/img/dlt_2.png" alt="DLT" width="600"/>
 
 #### Question 4: Merge the 2 generators using the ID column. Calculate the sum of ages of all the people loaded as described above.
@@ -181,3 +183,60 @@ Output:
 - **B**: 213
 - **C**: 221
 - **D**: 230
+
+```python
+# to do: homework :)
+import dlt
+import duckdb
+
+def people_1():
+    for i in range(1, 6):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 25 + i, "City": "City_A"}
+
+for person in people_1():
+    print(person)
+
+
+def people_2():
+    for i in range(3, 9):
+        yield {"ID": i, "Name": f"Person_{i}", "Age": 30 + i, "City": "City_B", "Occupation": f"Job_{i}"}
+
+
+for person in people_2():
+    print(person)
+
+# define the connection to load to.
+generators_pipeline = dlt.pipeline(destination='duckdb', dataset_name='ages')
+
+
+# we can load any generator to a table at the pipeline destnation as follows:
+info = generators_pipeline.run(people_1(),
+										table_name="ages",
+										write_disposition="replace")
+
+# we can load the next generator to the same or to a different table.
+info = generators_pipeline.run(people_2(),
+										table_name="ages",
+                    primary_key= "id",
+ 									write_disposition="merge")
+
+
+conn = duckdb.connect(f"{generators_pipeline.pipeline_name}.duckdb")
+
+# let's see the tables
+conn.sql(f"SET search_path = '{generators_pipeline.dataset_name}'")
+print('Loaded tables: ')
+display(conn.sql("show tables"))
+
+# and the data
+
+print("\n\n\n ages table below:")
+
+ages = conn.sql("SELECT * FROM ages").df()
+display(ages)
+
+sum_ages = conn.sql("SELECT sum(Age) FROM ages").df()
+display(sum_ages)
+```
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Workshop_dlt/img/dlt_3.png" alt="DLT" width="600"/>
+
