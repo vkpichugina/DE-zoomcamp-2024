@@ -27,13 +27,19 @@ A **Data Warehouse** (DWH) is an ***OLAP solution*** meant for ***reporting and 
 
 A DW receives data from different ***data sources*** which is then processed in a ***staging area*** before being ingested to the actual warehouse (a database) and arranged as needed. DWs may then feed data to separate ***Data Marts***; smaller database systems which end users may use for different purposes.
 
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/DWH_1.png" alt="DE-lifestyle" width="600"/>
 
 # BigQuery
 
 BigQuery (BQ) is a Data Warehouse solution offered by Google Cloud Platform.
-* BQ is ***serverless***. There are no servers to manage or database software to install; this is managed by Google and it's transparent to the customers.
-* BQ is ***scalable*** and has ***high availability***. Google takes care of the underlying software and infrastructure.
-* BQ has built-in features like Machine Learning, Geospatial Analysis and Business Intelligence among others.
-* BQ maximizes flexibility by separating data analysis and storage in different _compute engines_, thus allowing the customers to budget accordingly and reduce costs.
+- Serverless data warehouse.
+  --There are no servers to manage or database software to install; this is managed by Google and it's transparent to the customers.
+- Software as well as infrastructure including
+-- **scalable*** and has ***high availability***. Google takes care of the underlying software and infrastructure.
+- Built-in features like
+  -- Machine Learning
+  -- Geospatial Analysis 
+  -- Business Intelligence 
+- BQ maximizes flexibility by separating data analysis and storage in different _compute engines_, thus allowing the customers to budget accordingly and reduce costs.
 
 Some alternatives to BigQuery from other cloud providers would be AWS Redshift or Azure Synapse Analytics.
