@@ -33,13 +33,15 @@ A DW receives data from different ***data sources*** which is then processed in 
 
 BigQuery (BQ) is a Data Warehouse solution offered by Google Cloud Platform.
 - Serverless data warehouse.
-  --There are no servers to manage or database software to install; this is managed by Google and it's transparent to the customers.
+  -
+  There are no servers to manage or database software to install; this is managed by Google and it's transparent to the customers.
 - Software as well as infrastructure including
--- **scalable*** and has ***high availability***. Google takes care of the underlying software and infrastructure.
+-
+   **scalable*** and has ***high availability***. Google takes care of the underlying software and infrastructure.
 - Built-in features like
-  -- Machine Learning
-  -- Geospatial Analysis 
-  -- Business Intelligence 
+  - Machine Learning
+  - Geospatial Analysis 
+  - Business Intelligence 
 - BQ maximizes flexibility by separating data analysis and storage in different _compute engines_, thus allowing the customers to budget accordingly and reduce costs.
 
 Some alternatives to BigQuery from other cloud providers would be AWS Redshift or Azure Synapse Analytics.
