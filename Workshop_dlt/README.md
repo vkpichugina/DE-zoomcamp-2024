@@ -115,7 +115,7 @@ display(sum_ages)
 ```
 
 Output:
-img dlt_1
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Workshop_dlt/img/dlt_1.png" alt="DLT" width="600"/>
 
 2. Append the second generator to the same table as the first.
 3. After correctly appending the data, calculate the sum of all ages of people.
@@ -173,8 +173,9 @@ display(ages)
 sum_ages = conn.sql("SELECT sum(Age) FROM ages").df()
 display(sum_ages)
 ```
+Output:
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Workshop_dlt/img/dlt_2.png" alt="DLT" width="600"/>
 
-img dlt_2
 #### Question 4: Merge the 2 generators using the ID column. Calculate the sum of ages of all the people loaded as described above.
 - **A**: 205
 - **B**: 213
