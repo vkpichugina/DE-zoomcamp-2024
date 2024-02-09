@@ -58,6 +58,7 @@ Data processing has a [2-tier pricing model](https://cloud.google.com/bigquery/p
   
 When running queries on BQ, the top-right corner of the window will display an approximation of the size of the data that will be processed by the query. Once the query has run, the actual amount of processed data will appear in the _Query results_ panel in the lower half of the window. This can be useful to quickly calculate the cost of the query.
 
+# Clustering and patitions
 ## Partitions
 
 BQ tables can be ***partitioned*** into multiple smaller tables. For example, if we often filter queries based on date, we could partition a table based on date so that we only query a specific sub-table based on the date we're interested in.
@@ -159,3 +160,88 @@ FROM de-zoomcamp-bq.ny_taxi.green_taxi_data_22_partitioned_clustered
 WHERE DATE(lpep_pickup_datetime) BETWEEN '2022-06-01' AND '2022-12-31'
   AND VendorID=1;
 ```
+
+## BigQuery partition
+- Time-unit column
+- Ingestion time (_PARTITIONTIME)
+- Integer range partitionung
+- When using Time unit or ingestion time
+   - daily
+   - hourly
+   - monthly or yearly
+- Number of patition limit is 4000
+
+## BigQuery Clustering
+- Columns you specify are used to colocate related data
+- Order of the colimn is important
+- The order of the specified columns determines the sort order of the data
+- Clustering improves
+    - filter queries
+    - aggregate queries
+- Table with data size < 1 GB don't show significant impovement with partitioning and clustering
+- You can specify up to four clustering columns
+
+## Partitioning vs Clustering
+
+| Clustering | Partitioning |
+|---|---|
+| Cost benefit unknown. BQ cannot estimate the reduction in cost before running a query. | Cost known upfront. BQ can estimate the amount of data to be processed before running a query. |
+| High granularity. Multiple criteria can be used to sort the table. | Low granularity. Only a single column can be used to partition the table. |
+| Clusters are "fixed in place". | Partitions can be added, deleted, modified or even moved between storage options. |
+| Benefits from queries that commonly use filters or aggregation against multiple particular columns. | Benefits when you filter or aggregate on a single column. |
+| Unlimited amount of clusters; useful when the cardinality of the number of values in a column or group of columns is large. | Limited to 4000 partitions; cannot be used in columns with larger cardinality. |
+
+## Clustering over partitioning 
+- partitioning results in a small amount of data per partition (too much granularity in partition column)
+- partitioning would result in over 4000 partitions 
+- partitioning results in your mutation operations modify the majority of partitions in the table frequently (for example, writing to the table every few minutes and writing to most of the partitions each time rather than just a handful).
+
+## Automatic reclustering
+When new data is written to a table
+- it can be written to blocks that contain key ranges that overlap with the key ranges in previously written blocks
+- these overlapping keys weaken the sort property of the table
+  
+To maintain the perfomance characteristics of a clustered table
+- BQ will perform automatic reclustering in the background to restore the sort properties of the table.
+- For partitioned tables, clustering is maintaned for data within the scope of each partition.
+
+
+# Best practices
+
+- Cost reduction
+  - Avoid SELECT *
+  - Price your queries before running them
+  - Use clustered or partitioned tables
+  - Use streaming inserts with caution as these can increase costs drastically
+  - Display query results in stages
+  - Use external data sources appropriately as storage in GCS also incurs costs.
+
+
+- Query perfomance
+  - **Partitioning and Clustering:** Partitioning tables and clustering data in BigQuery can significantly improve query performance by limiting the amount of data scanned.
+  - **Avoid Oversharding Tables:** Avoid creating too many table partitions (shards), as this can lead   to suboptimal query performance.
+  - **Denormalize Data:** Consider using nested or repeated columns instead of excessive normalization to reduce the need for joins and improve performance.
+  - **Filter Data Before Joining:** Apply filters to your data before performing joins to reduce the amount of data being joined.
+  - **Do Not Treat the WITH Clause as Prepared Statements:** A prepared statement is run and optimized once. It is not reevaluated by the query optimizer each time the query is run.  
+  - **Avoid JavaScript User-Defined Functions:** They may not perform as efficiently as native BigQuery functions. 
+  - **Use Approximate Aggregate Functions (HyperLog++):** When exact precision is not required, consider using approximate aggregate functions for faster results.
+  - **Order By Last:** If possible, use ORDER BY as the last operation in your query for better performance.
+  - **Optimize Join Patterns:** Optimize your query's join patterns to minimize data movement and improve query efficiency.
+  - **Arrange Tables by Size:** When performing joins, place the table with the largest number of rows first, followed by the table with fewer rows, and so on, in decreasing order of size.
+ 
+# Internals of BQ
+
+A high-level architecture for BQ service:
+
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/BQ_arch.png" alt="BQ architecture" width="600"/>
+
+Columnar and record oriented storage:
+
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/col_vs_rec.png" alt="Columnar and record oriented storage" width="600"/>
+
+These provide better aggregation and we usually query only few columns, and filter on another columns.
+
+Example of Dremel serving tree:
+
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/Dremel_tree.png" alt="Dremel serving tree" width="600"/>
+
