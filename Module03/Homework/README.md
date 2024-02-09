@@ -99,4 +99,4 @@ No Points: Write a SELECT count(*) query FROM the materialized table you created
 0 B
 
 Why?
-It tales info from metadata
+It takes info from metadata
