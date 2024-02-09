@@ -6,7 +6,7 @@ SETUP:
 Create an external table using the Green Taxi Trip Records Data for 2022.
 
 ```sql
-create or replace external table de-zoomcamp-bq.ny_taxi.external_green_taxi_data_22
+create or replace external table de-zoomcamp-bq.ny_taxi.green_taxi_data_22
 options (
   format = 'PARQUET',
   uris=['gs://green-taxi-data-2022/green_tripdata_2022-*.parquet','gs://green-taxi-data-2022/green_tripdata_2023-*.parquet']
@@ -16,7 +16,7 @@ Create a table in BQ using the Green Taxi Trip Records for 2022 (do not partitio
 
 ```
 create or replace table de-zoomcamp-bq.ny_taxi.green_taxi_data_22_non_partitoned as
-select * from de-zoomcamp-bq.ny_taxi.external_green_taxi_data_22;
+select * from de-zoomcamp-bq.ny_taxi.green_taxi_data_22;
 ```
 
 ### Question 1: 
@@ -32,7 +32,7 @@ Write a query to count the distinct number of PULocationIDs for the entire datas
 What is the estimated amount of data that will be read when this query is executed on the External Table and the Table?
 
 ```sql
-select distinct PULocationID from de-zoomcamp-bq.ny_taxi.external_green_taxi_data_22; --0 MB
+select distinct PULocationID from de-zoomcamp-bq.ny_taxi.green_taxi_data_22; --0 MB
 
 select distinct PULocationID from de-zoomcamp-bq.ny_taxi.green_taxi_data_22_non_partitoned; --6.41 MB
 ```
