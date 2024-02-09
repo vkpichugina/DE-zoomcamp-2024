@@ -243,5 +243,5 @@ These provide better aggregation and we usually query only few columns, and filt
 
 Example of Dremel serving tree:
 
-<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/Dremel_tree.png" alt="Dremel serving tree" width="600"/>
+<img src="https://github.com/vkpichugina/DE-zoomcamp-2024/blob/main/Module03/img/dremel_tree.png" alt="Dremel serving tree" width="600"/>
 
